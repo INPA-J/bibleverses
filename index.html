@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Versículo Bíblico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #ffffff;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.5); /* Fundo translúcido */
+        }
+        .verse {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .reference {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+        button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #212121;
+            color: #f5f5f5;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+        #copy {
+            background-color: #212121;
+        }
+        #copy:hover {
+            background-color: #333333;
+        }
+        #share {
+            background-color: #212121;
+        }
+        #share:hover {
+            background-color: #333333;
+        }
+        #reflection {
+            background-color: #212121;
+        }
+        #reflection:hover {
+            background-color: #333333;
+        }
+        .logo {
+            width: 250px;
+            height: auto;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="verse" id="verse">Carregando versículo...</div>
+        <div class="reference" id="reference"></div>
+        <div class="buttons">
+            <button id="copy">COPIAR</button>
+            <button id="share">COMPARTILHAR</button>
+            <button id="reflection">VER REFLEXÃO</button>
+        </div>
+        
+        <footer style="margin-top: 100px; font-size: 1.5rem; text-align: center; color: #000000;"></footer>
+            <img src="logo.png" alt="IPR Logo" class="logo" id="churchLogo"> 
+            <!-- Parte que deve ser personalizada -->
+        <footer class="church-info" style="margin-top: 0px; font-size: 1.1rem; text-align: center; color: #ffffff;">
+        	<!-- Adicione abaixo o nome da sua igreja -->
+            Igreja Do Nazareno em Pau Amarelo
+        </footer>
+        <footer class="church-info" style="margin-top: 0px; font-size: 0.9rem; text-align: center; color: #ffffff; opacity: 0.7;">
+            <!-- Adicione abaixo o endereço da sua igreja -->
+             Rua Bertópolis, 266 - Nossa Sra. da Conceição, Paulista.
+        </footer>      
+    </div>
+
+    <script>
+    	//Json dos versículos
+       //Caso queira adicionar uma explicação ao versículo, basta colar em URL.
+        const verses = [
+            {
+                index: 1,
+                reflection: "URL",
+                text:
+                    "Eu disse essas coisas para que em mim vocês tenham paz. Neste mundo vocês terão aflições; contudo, tenham ânimo! Eu venci o mundo.",
+                reference: "João 16:33",
+            },
+            {
+                index: 1,
+                reflection: "URL",
+                text:
+                    "Como é feliz aquele cujo auxílio é o Deus de Jacó, cuja esperança está no Senhor, no seu Deus.",
+                reference: "Salmos 146:5",
+            },            
+    {
+        index: 1,
+        reflection: "URL",
+        text: "Ele o fez a fim de que, justificados por sua graça, nos tornemos seus herdeiros, tendo a esperança da vida eterna.",
+        reference: "Tito 3:7"
+    },
+    {
+        index: 2,
+        reflection: "URL",
+        text: "Os que amam a tua lei desfrutam paz, e nada há que os faça tropeçar.",
+        reference: " Salmos 119:165"
+    },
+    {
+        index: 3,
+        reflection: "URL",
+        text: "O Senhor dá força ao seu povo; o Senhor dá a seu povo a bênção da paz.",
+        reference: "Salmos 29:11"
+    },
+    {
+        index: 4,
+        reflection: "URL",
+        text: "E todo aquele que invocar o nome doSenhor será salvo, pois, conformeprometeu o Senhor, no monte Sião e em Jerusalém haverá livramento para ossobreviventes, para aqueles a quem o Senhor chamar.",
+        reference: "Joel 2:32"
+    },
+    {
+        index: 5,
+        reflection: "URL",
+        text: "Pois toda a lei pode ser resumida neste único mandamento: 'Ame o seu próximo como a si mesmo'.",
+        reference: "Gálatas 5:14"
+    },
+    {
+        index: 6,
+        reflection: "URL",
+        text: "Portanto, como filhos amados de Deus, imitem-no em tudo que fizerem.",
+        reference: "Efésios 5:1"
+    },
+    {
+        index: 7,
+        reflection: "URL",
+        text: "Agora, arrependam-se e voltem- se para Deus, para que seus pecados sejam apagados.",
+        reference: "Atos 3:19 "
+    },
+    {
+        index: 8,
+        reflection: "URL",
+        text: "Assim, permanecem agora estes três: a fé, a esperança e o amor. O maior deles, porém, é o amor.",
+        reference: "1 Coríntios 13:13"
+    },
+    {
+        index: 9,
+        reflection: "URL",
+        text: "O Senhor é o meu pastor, nada me faltará.",
+        reference: "Salmo 23:1"
+    },
+    {
+        index: 10,
+        reflection: "URL",
+        text: "O que é nascido de Deus vence o mundo; e esta é a vitória que vence o mundo: a nossa fé.",
+        reference: "1 João 5:4"
+    },
+    {
+        index: 11,
+        reflection: "URL",
+        text: "Tudo posso naquele que me fortalece.",
+        reference: "Filipenses 4:13"
+    },
+    {
+        index: 12,
+        reflection: "URL",
+        text: "Como flechas na mão do guerreiro, assim os filhos da mocidade.",
+        reference: "Salmos 127:4"
+    },
+    {
+        index: 13,
+        reflection: "URL",
+        text: "Se Cristo vos libertar, verdadeiramente sereis livres.",
+        reference: "João 8:36"
+    },
+    {
+        index: 14,
+        reflection: "URL",
+        text: "Ele fortalece o cansado e multiplica as forças ao que não tem nenhum vigor.",
+        reference: "Isaías 40:29"
+    },
+    {
+        index: 15,
+        reflection: "URL",
+        text: "Pois nada é impossível para Deus",
+        reference: "Lucas 1:37"
+    },
+    {
+        index: 16,
+        reflection: "URL",
+        text: "Que pregue a palavra, insista, quer seja oportuno, quer não, corrija, repreenda, exorte com toda a paciência e doutrina.",
+        reference: "2 Timóteo 4:2"
+    },
+    {
+        index: 17,
+        reflection: "URL",
+        text: "Então Jesus tornou a falar-lhes, dizendo: Eu sou a luz do mundo; quem me segue de modo algum andará em trevas, mas terá a luz da vida.",
+        reference: "João 8:12"
+    },
+    {
+        index: 18,
+        reflection: "URL",
+        text: "Vinde a mim, todos os que estai cansados e oprimidos, e eu vos aliviarei.",
+        reference: "Mateus 11:28"
+    },
+    {
+        index: 19,
+        reflection: "URL",
+        text: "Não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.",
+        reference: "Isaías 41:10"
+    },
+    {
+        index: 20,
+        reflection: "URL",
+        text: "Lançando sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós.",
+        reference: "1 pedro 5:7"
+    },
+    {
+        index: 21,
+        reflection: "URL",
+        text: "Não atentando nós nas coisas que se vêem, mas sim nas que se não vêem; porque as que se vêem são temporais, enquanto as que se não vêem são eternas.",
+        reference: "2 Coríntios 4:18 "
+    },
+    {
+        index: 22,
+        reflection: "URL",
+        text: "O SENHOR protege-te de todo o mal; é ele que protege a tua vida. O SENHOR te protege quando sais e quando voltas, agora e para sempre.",
+        reference: "Salmos 121:7-8"
+    },
+    {
+        index: 23,
+        reflection: "URL",
+        text: "Nossa esperança está no Senhor; ele é o nosso auxílio e a nossa proteção.",
+        reference: " Salmos 33:20"
+    },
+    {
+        index: 24,
+        reflection: "URL",
+        text: "O Senhor te abençoe e te guarde; o Senhor aça resplandecer o seu rosto sobre ti e te conceda graça; o Senhor volte para ti o seu rosto e te dê paz.",
+        reference: "Números 6:24-26"
+    },
+    {
+        index: 25,
+        reflection: "URL",
+        text: "Eu sou o caminho, a verdade e a vida. Nin uém vai ao Pai senão or mim.",
+        reference: "João 14:6"
+    },
+    {
+        index: 26,
+        reflection: "URL",
+        text: "Ainda que eu andasse pelo vale da sombra da morte, não temeria mal algum, porque tu estás comigo; a tua vara e o teu cajado me consolam.",
+        reference: "Salmos 23:4"
+    },
+    {
+        index: 27,
+        reflection: "URL",
+        text: "Deus éo nosso refúgio e fortaleza, socorro bem presente na angústia.",
+        reference: "Salmos 46: 1"
+    },
+    {
+        index: 28,
+        reflection: "URL",
+        text: "O Senhor é o meu pastor; nada me faltará.",
+        reference: "Salmos 23:1"
+    },
+    {
+        index: 29,
+        reflection: "URL",
+        text: "Então ele os levou para fora e perguntou: 'Senhores, que devo fazer para ser salvo?'. Eles responderam: 'Creia no Senhor Jesus, e você e sua família serão salvos'.",
+        reference: "Atos 16:30-31"
+    },
+    
+];
+
+        function getRandomVerse() {
+            const randomIndex = Math.floor(Math.random() * verses.length);
+            return verses[randomIndex];
+        }
+
+        function getRandomGradient() {
+            const colors = [
+                '#ff7e5f', '#feb47b', '#6a11cb', '#2575fc', '#00d2ff', '#3a7bd5',
+                '#ee9ca7', '#ffdde1', '#4568dc', '#b06ab3', '#ec008c', '#fc6767',
+                '#ffcc29', '#4cb8c4', '#f4786e', '#6874e8', '#a2d729', '#e8764e',
+                '#c8c8c8', '#ff5733', '#ffa700', '#ffcc00', '#33ff33', '#00ffcc',
+                '#00ccff', '#0066ff', '#9933ff', '#ff33ff', '#ff66b2', '#ff5050',
+                '#ff9933', '#ffbf00', '#99cc00', '#66cc66', '#66cccc', '#3366ff',
+                '#993366', '#cc6699', '#ff99cc', '#ffccff', '#ff6666', '#ff9966',
+                '#ffcc99', '#ffff99', '#ccff99', '#99ff99', '#99ffff', '#66ccff'
+            ];
+            const color1 = colors[Math.floor(Math.random() * colors.length)];
+            const color2 = colors[Math.floor(Math.random() * colors.length)];
+            return `linear-gradient(to right, ${color1}, ${color2})`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const verseElement = document.getElementById('verse');
+            const referenceElement = document.getElementById('reference');
+
+            const verse = getRandomVerse();
+            verseElement.textContent = verse.text;
+            referenceElement.textContent = verse.reference;
+
+            document.body.style.background = getRandomGradient();
+
+            const reflectionButton = document.getElementById('reflection');
+            if (verse.reflection && isValidUrl(verse.reflection)) {
+                reflectionButton.style.display = 'block';
+            } else {
+                reflectionButton.style.display = 'none';
+            }
+        });
+
+        document.getElementById('copy').addEventListener('click', () => {
+            const verseText = document.getElementById('verse').textContent;
+            const referenceText = document.getElementById('reference').textContent;
+            const textToCopy = `${verseText} - ${referenceText}`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Versículo copiado!");
+            }, () => {
+                alert("Erro ao copiar o versículo.");
+            });
+        });
+
+        document.getElementById('share').addEventListener('click', () => {
+            const verseText = document.getElementById('verse').textContent;
+            const referenceText = document.getElementById('reference').textContent;
+            const textToShare = `${verseText} - ${referenceText}`;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Versículo Bíblico',
+                    text: textToShare,
+                }).then(() => {
+                    console.log('Versículo compartilhado com sucesso.');
+                }).catch((error) => {
+                    console.log('Erro ao compartilhar o versículo:', error);
+                });
+            } else {
+                alert("A funcionalidade de compartilhamento não é suportada neste navegador.");
+            }
+        });
+
+        document.getElementById('reflection').addEventListener('click', () => {
+            const reflectionUrl = verses.find(v => v.index === 2).reflection;
+            window.open(reflectionUrl, '_blank');
+        });
+
+        document.getElementById('churchLogo').addEventListener('click', () => {
+            const buttonsContainer = document.querySelector('.buttons');
+            const churchInfoElements = document.querySelectorAll('.church-info');
+            
+            if (buttonsContainer.style.display === 'none') {
+                buttonsContainer.style.display = 'flex';
+                churchInfoElements.forEach(element => {
+                    element.style.display = 'block';
+                });
+            } else {
+                buttonsContainer.style.display = 'none';
+                churchInfoElements.forEach(element => {
+                    element.style.display = 'none';
+                });
+            }
+        });
+
+        function isValidUrl(url) {
+            try {
+                new URL(url);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
